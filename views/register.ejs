@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <title>Regisztráció</title>
+</head>
+<body>
+    <h1>Regisztráció</h1>
+    <form action="/register" method="POST">
+        <label>Felhasználónév:</label><br>
+        <input type="text" name="uname" required><br><br>
+
+        <label>Jelszó:</label><br>
+        <input type="password" name="pw" required><br><br>
+
+        <button type="submit">Regisztrálás</button>
+    </form>
+    <span>
+        <p>Van már fiókod? <a href="/login">Jelentkezz be itt!</a></p>
+        <p><a href="/">Vissza a főoldalra</a></p>
+    </span>
+</body>
+</html>
