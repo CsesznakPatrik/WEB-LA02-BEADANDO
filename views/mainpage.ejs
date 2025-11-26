@@ -9,30 +9,38 @@
 		<title>Miniport by HTML5 UP</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="stylesheet" href="assets/css/main.css" type="text/css" />
 	</head>
 	<body class="is-preload">
 
 		<!-- Nav -->
-			<nav>
-    <ul class="actions">
-        <li><a href="/">Főoldal</a></li>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <nav id="nav">
+                    <ul class="actions">
+                        <li><a href="/">Főoldal</a></li>
 
-        <% if (currentUser) { %> <li><a href="/messages">Üzenetek</a></li>
-            
-            <% if (currentUser.isAdmin == 1) { %>
-                <li><a href="/admin-route">Admin Kezelés</a></li>
-            <% } %>
-            
-            <li><a href="/logout">Kijelentkezés</a></li>
+                        <% if (currentUser) { %> 
+                            <li><a href="/messages">Üzenetek</a></li>
+                            
+                            <% if (currentUser.isAdmin == 1) { %>
+                                <li><a href="/admin">Admin Menü</a></li>
+                            <% } %>
+                            
+                            <li><a href="/logout">Kijelentkezés</a></li>
 
-        <% } else { %>
-            <li><a href="/login">Bejelentkezés</a></li>
-            <li><a href="/register">Regisztráció</a></li>
+                        <% } else { %>
+                            <li><a href="/login">Bejelentkezés</a></li>
+                            <li><a href="/register">Regisztráció</a></li>
 
-        <% } %>
-    </ul>
-</nav>
+                        <% } %>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+
 
 		<!-- Home -->
 			<article id="top" class="wrapper style1">
@@ -89,64 +97,7 @@
 				</div>
 			</article>
 
-		<!-- Portfolio -->
-			<article id="portfolio" class="wrapper style3">
-				<div class="container">
-					<header>
-						<h2>Here’s some stuff I made recently.</h2>
-						<p>Proin odio consequat  sapien vestibulum consequat lorem dolore feugiat.</p>
-					</header>
-					<div class="row">
-						<div class="col-4 col-6-medium col-12-small">
-							<article class="box style2">
-								<a href="#" class="image featured"><img src="images/pic01.jpg" alt="" /></a>
-								<h3><a href="#">Magna feugiat</a></h3>
-								<p>Ornare nulla proin odio consequat.</p>
-							</article>
-						</div>
-						<div class="col-4 col-6-medium col-12-small">
-							<article class="box style2">
-								<a href="#" class="image featured"><img src="images/pic02.jpg" alt="" /></a>
-								<h3><a href="#">Veroeros primis</a></h3>
-								<p>Ornare nulla proin odio consequat.</p>
-							</article>
-						</div>
-						<div class="col-4 col-6-medium col-12-small">
-							<article class="box style2">
-								<a href="#" class="image featured"><img src="images/pic03.jpg" alt="" /></a>
-								<h3><a href="#">Lorem ipsum</a></h3>
-								<p>Ornare nulla proin odio consequat.</p>
-							</article>
-						</div>
-						<div class="col-4 col-6-medium col-12-small">
-							<article class="box style2">
-								<a href="#" class="image featured"><img src="images/pic04.jpg" alt="" /></a>
-								<h3><a href="#">Tempus dolore</a></h3>
-								<p>Ornare nulla proin odio consequat.</p>
-							</article>
-						</div>
-						<div class="col-4 col-6-medium col-12-small">
-							<article class="box style2">
-								<a href="#" class="image featured"><img src="images/pic05.jpg" alt="" /></a>
-								<h3><a href="#">Feugiat aliquam</a></h3>
-								<p>Ornare nulla proin odio consequat.</p>
-							</article>
-						</div>
-						<div class="col-4 col-6-medium col-12-small">
-							<article class="box style2">
-								<a href="#" class="image featured"><img src="images/pic06.jpg" alt="" /></a>
-								<h3><a href="#">Sed amet ornare</a></h3>
-								<p>Ornare nulla proin odio consequat.</p>
-							</article>
-						</div>
-					</div>
-					<footer>
-						<p>Lorem ipsum dolor sit sapien vestibulum ipsum primis?</p>
-						<a href="#contact" class="button large scrolly">Get in touch with me</a>
-					</footer>
-				</div>
-			</article>
-
+		
 		<!-- Contact -->
 			<article id="contact" class="wrapper style4">
 				<div class="container medium">

@@ -55,8 +55,7 @@ app.use(session({
 }));
 
 app.use(passport.initialize());
-app.use(passport.session());
-
+app.use(passport.session()); 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
@@ -73,7 +72,7 @@ const customFields = {
     passwordField: 'pw',
 };
 
-// --- Login Ellenőrzés ---
+// Login Ellenőrzés
 const verifyCallback = async (username, password, done) => {
     try {
         
@@ -178,11 +177,11 @@ function isAuth(req, res, next) {
 app.get('/messages', isAuth, async (req, res) => { 
     let messages = [];
     
-    // Csak akkor kérjük le az üzeneteket, ha a felhasználó be van jelentkezve (admin vagy regisztrált)
+    // Csak akkor kérjük le az üzeneteket, ha a felhasználó be van jelentkezve!!! (admin vagy regisztrált)
         try {
             
             const [results] = await pool.execute(
-                'SELECT id, user_id, name, email, subject, message, created_at FROM messages ORDER BY id DESC LIMIT 50'
+               `SELECT id, user_id, name, email, subject, message, DATE_FORMAT(created_at, '%Y-%m-%d %H:%i:%s') AS created_at FROM messages ORDER BY created_at DESC LIMIT 50`
             );
             messages = results;
         } catch (err) {
@@ -212,6 +211,49 @@ app.get('/admin', isAdmin, async (req, res) => {
     } catch (err) {
         console.error("Admin oldal hiba:", err);
         res.status(500).send("Hiba történt az admin adatok lekérésekor.");
+    }
+});
+
+// ÚJ: Felhasználó törlése Adminisztrátor által
+app.post('/admin/delete-user', isAdmin, async (req, res) => {
+    // Ellenőrizzük, hogy a kérést az Admin oldalról küldték-e (POST metódus)
+    const userIdToDelete = req.body.userId;
+    const currentUserId = req.user.id; // Az éppen bejelentkezett admin ID-ja
+
+    if (!userIdToDelete) {
+        return res.status(400).send('Hiányzik a felhasználó ID a törléshez.');
+    }
+
+    //Ellenőrizzük, hogy kit szeretnénk törölni (admin, magunkat nem!!!!)
+    try {
+        const [targetUser] = await pool.execute('SELECT id, isAdmin FROM users WHERE id = ?', [userIdToDelete]);
+
+        if (targetUser.length === 0) {
+            return res.status(404).send('A megadott ID-vel felhasználó nem található :(.');
+        }
+
+        const userIsAdmin = targetUser[0].isAdmin;
+
+        if (userIsAdmin == 1 || userIdToDelete == currentUserId) {
+            return res.status(403).send('Admin felhasználót vagy saját magadat nem törölheted!');
+        }
+        
+    } catch (err) {
+        console.error("Admin törlési hiba (Ellenőrzés):", err);
+        return res.status(500).send("Hiba történt a törlési ellenőrzés során.");
+    }
+    
+    // 2. Törlés végrehajtása
+    try {
+        await pool.execute('DELETE FROM users WHERE id = ?', [userIdToDelete]);
+        console.log(`Felhasználó törölve: (ID): ${userIdToDelete} az Admin (ID): ${currentUserId} által.`);
+        
+
+        res.redirect('/admin'); 
+
+    } catch (err) {
+        console.error("Admin törlési hiba (Törlés):", err);
+        res.status(500).send("Hiba történt az adatbázis törlése során.");
     }
 });
 
